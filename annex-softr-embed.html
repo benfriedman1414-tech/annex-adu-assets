@@ -1,0 +1,580 @@
+<!-- ============================================================
+ANNEX — SOFTR CUSTOM CODE BLOCK  (techy-minimal, v5)
+ADU Plan Pre-Check · Contra Costa County
+
+Dark, techy, minimal. Two full-screen scroll-scrubbed builds (native res,
+bright daytime), monospace HUD + blueprint grid, very few words.
+
+USE: paste into one Softr Custom Code block (only block). Page bg: #12181E.
+CTAs -> /start. Replace hello@annex.example. Scoped under #pp.
+============================================================ -->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+html,body{background:#12181E;margin:0}
+
+#pp{
+  --void:#12181E; --void-2:#171F26; --panel:#1C2630;
+  --emerald:#1BE89F; --emerald-soft:#8CFAD2; --emerald-deep:#0a9a68;
+  --glow:rgba(27,232,159,.30);
+  --white:#F4F8F6; --muted:#AAB8C0; --faint:#7E8C94;
+  --line:rgba(27,232,159,.26); --line-soft:rgba(255,255,255,.11);
+  --flag:#FFC83D; --max:1180px;
+  --grid:linear-gradient(rgba(27,232,159,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(27,232,159,.06) 1px,transparent 1px);
+  background:var(--void); color:var(--white);
+  font-family:'Sora',sans-serif;font-weight:400;font-size:16.5px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;width:100%;overflow-x:clip;
+}
+#pp *{margin:0;padding:0;box-sizing:border-box}
+#pp ::selection{background:var(--emerald-deep);color:#fff}
+#pp .pp-wrap{max-width:var(--max);margin:0 auto;padding:0 26px}
+#pp .pp-mono{font-family:'JetBrains Mono',monospace}
+#pp .pp-kicker{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--emerald);text-shadow:0 0 16px var(--glow)}
+#pp h1,#pp h2,#pp h3{font-family:'Sora',sans-serif;font-weight:600;color:#fff;letter-spacing:-.02em}
+#pp a{color:inherit;text-decoration:none}
+
+/* Buttons */
+#pp .pp-btn{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:14px 22px;border-radius:4px;transition:all .22s;font-weight:500}
+#pp .pp-btn-primary{background:var(--emerald);color:#04241A;box-shadow:0 0 30px var(--glow)}
+#pp .pp-btn-primary:hover{background:var(--emerald-soft);box-shadow:0 0 56px var(--glow)}
+#pp .pp-btn-ghost{border:1px solid var(--line);color:var(--white);background:rgba(27,232,159,.05)}
+#pp .pp-btn-ghost:hover{border-color:var(--emerald);color:var(--emerald)}
+
+/* Nav */
+#pp .pp-nav{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(18,24,30,.62);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-soft)}
+#pp .pp-nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+#pp .pp-logo{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;letter-spacing:.16em;color:#fff}
+#pp .pp-logo svg{display:block;filter:drop-shadow(0 0 8px var(--glow))}
+#pp .pp-nav-meta{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--faint);display:none}
+#pp .pp-nav-cta{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#04241A;background:var(--emerald);font-weight:500;padding:9px 16px;border-radius:4px;box-shadow:0 0 20px var(--glow)}
+@media (min-width:760px){ #pp .pp-nav-meta{display:block} }
+
+/* ===== FILM (full screen) ===== */
+#pp .pp-film{position:relative;height:330vh;background:var(--void);z-index:1}
+#pp .pp-film-pin{position:sticky;top:0;height:100vh;width:100%;overflow:hidden}
+#pp .pp-film-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:var(--void);filter:brightness(1.13) contrast(1.02) saturate(1.04)}
+#pp .pp-film-top{position:absolute;left:0;right:0;top:0;height:26%;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(18,24,30,.55),transparent)}
+#pp .pp-film-bot{position:absolute;left:0;right:0;bottom:0;height:46%;z-index:2;pointer-events:none;background:linear-gradient(0deg,rgba(18,24,30,.8),rgba(18,24,30,.18) 60%,transparent)}
+/* corner ticks */
+#pp .pp-tick{position:absolute;width:18px;height:18px;border:1px solid rgba(27,232,159,.45);z-index:4;pointer-events:none}
+#pp .pp-tick.tl{top:78px;left:24px;border-right:0;border-bottom:0}
+#pp .pp-tick.tr{top:78px;right:24px;border-left:0;border-bottom:0}
+#pp .pp-tick.bl{bottom:84px;left:24px;border-right:0;border-top:0}
+#pp .pp-tick.br{bottom:84px;right:24px;border-left:0;border-top:0}
+/* HUD */
+#pp .pp-hud{position:absolute;top:76px;left:0;right:0;z-index:5;pointer-events:none}
+#pp .pp-hud .pp-wrap{display:flex;justify-content:space-between;align-items:center;gap:14px}
+#pp .pp-hud-l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--emerald);text-shadow:0 0 14px var(--glow);display:flex;align-items:center;gap:9px}
+#pp .pp-rec{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 10px var(--emerald);animation:pppulse 1.6s ease-in-out infinite}
+@keyframes pppulse{0%,100%{opacity:1}50%{opacity:.2}}
+#pp .pp-hud-r{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+#pp .pp-hud-r b{color:var(--emerald);font-weight:500}
+/* caption */
+#pp .pp-cap{position:absolute;left:0;right:0;bottom:13vh;z-index:5;will-change:opacity,transform}
+#pp .pp-cap .pp-inner{max-width:760px}
+#pp .pp-cap .pp-kicker{display:block;margin-bottom:16px}
+#pp .pp-cap h1{font-size:clamp(40px,6.6vw,86px);line-height:.98;color:#fff;text-shadow:0 2px 40px rgba(0,0,0,.6)}
+#pp .pp-cap h1 .g{color:var(--emerald);text-shadow:0 0 30px var(--glow)}
+#pp .pp-cap .pp-line{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.1em;color:var(--muted)}
+#pp .pp-cap .pp-line b{color:var(--emerald)}
+#pp .pp-cap .pp-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+/* readouts */
+#pp .pp-readout{position:absolute;left:0;right:0;bottom:30px;z-index:5;pointer-events:none}
+#pp .pp-readout .pp-wrap{display:flex;align-items:center;gap:16px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+#pp .pp-readout .pp-bar{flex:1;height:2px;background:rgba(255,255,255,.10);position:relative;overflow:hidden}
+#pp .pp-readout .pp-bar i{position:absolute;left:0;top:0;bottom:0;width:0%;background:var(--emerald);box-shadow:0 0 12px var(--glow)}
+#pp .pp-readout .pp-st b{color:var(--emerald)}
+#pp .pp-film-loader{position:absolute;inset:0;z-index:7;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;background:var(--void);transition:opacity .7s ease}
+#pp .pp-film-loader.pp-hide{opacity:0;pointer-events:none}
+#pp .pp-film-loader .pp-mono{font-size:12px;letter-spacing:.18em;color:var(--muted)}
+#pp .pp-loadbar{width:160px;height:1px;background:rgba(255,255,255,.12);overflow:hidden}
+#pp .pp-loadbar i{display:block;height:100%;width:0%;background:var(--emerald);box-shadow:0 0 12px var(--glow);transition:width .2s ease}
+
+/* data strip */
+#pp .pp-strip{position:relative;z-index:1;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);background:var(--void-2)}
+#pp .pp-strip .pp-wrap{display:flex;flex-wrap:wrap;gap:10px 34px;justify-content:center;padding:20px 26px;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+#pp .pp-strip b{color:var(--emerald)}
+
+/* interactive constellation (behind the post-video sections) */
+#pp .pp-stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* sections (transparent so the starfield shows through, after the films) */
+#pp .pp-sec{padding:120px 0;position:relative;z-index:1;background:transparent}
+#pp .pp-sec.grid{background-image:var(--grid);background-size:42px 42px}
+#pp .pp-sec.alt{background:transparent}
+#pp .pp-head{max-width:680px;margin-bottom:54px}
+#pp .pp-head .pp-kicker{display:block;margin-bottom:18px}
+#pp .pp-head h2{font-size:clamp(30px,4.2vw,48px);line-height:1.06;color:#fff}
+#pp .pp-head h2 .g{color:var(--emerald)}
+#pp .pp-divider{height:1px;background:var(--line-soft)}
+
+/* spec flip cards (what it checks) */
+#pp .pp-spec{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
+#pp .pp-spec .pp-cell{position:relative;min-height:156px;background:transparent;perspective:1100px;cursor:pointer;outline:none}
+#pp .pp-spec .pp-flip{position:absolute;inset:0;transition:transform .62s cubic-bezier(.2,.7,.25,1);transform-style:preserve-3d}
+#pp .pp-spec .pp-cell.is-flipped .pp-flip{transform:rotateY(180deg)}
+#pp .pp-spec .pp-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:var(--void);padding:22px 20px;display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+#pp .pp-spec .pp-back{transform:rotateY(180deg);background:linear-gradient(155deg,var(--panel),var(--void))}
+#pp .pp-spec .pp-cell:hover .pp-front{box-shadow:inset 0 0 0 1px var(--line)}
+#pp .pp-spec .pp-cell:hover .pp-flip{transform:translateZ(0)}
+#pp .pp-spec .pp-cell.is-flipped:hover .pp-flip{transform:rotateY(180deg)}
+#pp .pp-spec .pp-cell:focus-visible .pp-face{box-shadow:inset 0 0 0 1px var(--emerald)}
+#pp .pp-spec .pp-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.1em}
+#pp .pp-spec .pp-nm{font-family:'JetBrains Mono',monospace;font-size:13.5px;color:#fff;letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+#pp .pp-spec .pp-nm::before{content:"";width:6px;height:6px;background:var(--emerald);box-shadow:0 0 10px var(--glow);flex-shrink:0}
+#pp .pp-spec .pp-hint{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase;display:flex;align-items:center;gap:6px;transition:color .2s}
+#pp .pp-spec .pp-cell:hover .pp-hint{color:var(--emerald)}
+#pp .pp-spec .pp-hint .pp-rot{color:var(--emerald);font-size:13px}
+#pp .pp-spec .pp-bk{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.5;color:var(--white)}
+#pp .pp-spec .pp-bk b{color:var(--emerald);font-weight:600}
+#pp .pp-spec .pp-cite2{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--faint)}
+
+/* report */
+#pp .pp-report{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;position:relative;box-shadow:0 30px 90px rgba(0,0,0,.55)}
+#pp .pp-scanline{position:absolute;left:0;right:0;top:-60px;height:60px;z-index:2;opacity:0;background:linear-gradient(180deg,transparent,rgba(27,232,159,.22),transparent);pointer-events:none}
+#pp .pp-report.run .pp-scanline{animation:ppscan 1.5s ease-out forwards}
+@keyframes ppscan{from{transform:translateY(0);opacity:1}to{transform:translateY(540px);opacity:0}}
+#pp .pp-rhead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--void-2);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+#pp .pp-verdict{color:var(--emerald);opacity:0;transition:opacity .5s 1.6s}
+#pp .pp-report.run .pp-verdict{opacity:1}
+#pp .pp-rrow{display:grid;grid-template-columns:1.4fr 1.7fr .8fr .7fr;gap:18px;padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.05);font-size:14.5px;align-items:center}
+#pp .pp-rrow:last-of-type{border-bottom:none}
+#pp .pp-rrow .pp-req{color:#fff}
+#pp .pp-rrow .pp-cite,#pp .pp-rrow .pp-val{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted)}
+#pp .pp-rrow .pp-val{color:var(--white)}
+#pp .pp-badge{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;padding:6px 9px;border-radius:3px;text-align:center;font-weight:500;opacity:0;transform:scale(.6)}
+#pp .pp-report.run .pp-badge{opacity:1;transform:scale(1);transition:all .4s cubic-bezier(.2,.9,.3,1.4)}
+#pp .pp-report.run .pp-rrow:nth-of-type(1) .pp-badge{transition-delay:.35s}
+#pp .pp-report.run .pp-rrow:nth-of-type(2) .pp-badge{transition-delay:.6s}
+#pp .pp-report.run .pp-rrow:nth-of-type(3) .pp-badge{transition-delay:.85s}
+#pp .pp-report.run .pp-rrow:nth-of-type(4) .pp-badge{transition-delay:1.1s}
+#pp .pp-pass{background:rgba(27,232,159,.16);color:var(--emerald);border:1px solid rgba(27,232,159,.45)}
+#pp .pp-flagb{background:rgba(255,200,61,.13);color:var(--flag);border:1px solid rgba(255,200,61,.4)}
+#pp .pp-rnote{padding:18px 24px;background:var(--void-2);border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+#pp .pp-rnote b{color:var(--flag)}
+
+/* pricing */
+#pp .pp-price-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:840px}
+#pp .pp-price{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:36px 32px;transition:all .25s}
+#pp .pp-price:hover{border-color:rgba(27,232,159,.5);box-shadow:0 0 40px rgba(27,232,159,.1)}
+#pp .pp-price.feat{border-color:rgba(27,232,159,.45);box-shadow:0 0 44px rgba(27,232,159,.08)}
+#pp .pp-price .pp-kicker{display:block;margin-bottom:16px}
+#pp .pp-amount{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:46px;color:#fff;line-height:1}
+#pp .pp-amount span{font-size:13px;color:var(--muted);font-weight:400}
+#pp .pp-price ul{list-style:none;margin:22px 0 26px}
+#pp .pp-price li{padding:7px 0;font-size:14.5px;color:var(--muted);display:flex;gap:10px;align-items:baseline;font-family:'JetBrains Mono',monospace}
+#pp .pp-price li::before{content:"+";color:var(--emerald);flex-shrink:0}
+#pp .pp-price .pp-btn{width:100%;justify-content:center}
+
+/* final */
+#pp .pp-final{padding:130px 0;text-align:center;position:relative;z-index:1;overflow:hidden;background:transparent}
+#pp .pp-final h2{font-size:clamp(34px,5vw,58px);max-width:720px;margin:0 auto 16px}
+#pp .pp-final h2 .g{color:var(--emerald)}
+#pp .pp-final .pp-line{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.1em;color:var(--muted);margin-bottom:30px}
+#pp .pp-foot{position:relative;z-index:1;border-top:1px solid var(--line-soft);padding:34px 0 44px;background:rgba(0,0,0,.12)}
+#pp .pp-foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.1em;color:var(--muted)}
+#pp .pp-disc{max-width:720px;font-size:11.5px;line-height:1.6;color:var(--faint);margin-top:14px}
+
+#pp .pp-fade{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+#pp .pp-fade.pp-in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  #pp .pp-fade{opacity:1;transform:none;transition:none}
+  #pp .pp-rec{animation:none}
+  #pp .pp-report .pp-badge,#pp .pp-verdict{opacity:1;transform:none;transition:none}
+}
+@media (max-width:860px){
+  #pp .pp-spec{grid-template-columns:1fr 1fr}
+  #pp .pp-price-grid{grid-template-columns:1fr}
+  #pp .pp-rrow{grid-template-columns:1.2fr .8fr .6fr}
+  #pp .pp-rrow .pp-cite{display:none}
+  #pp .pp-sec{padding:84px 0}
+  #pp .pp-cap{bottom:12vh}
+  #pp .pp-tick{display:none}
+}
+</style>
+
+<div id="pp">
+
+  <canvas id="ppstars" class="pp-stars" aria-hidden="true"></canvas>
+
+  <div class="pp-nav"><div class="pp-wrap pp-nav-inner">
+    <a class="pp-logo" href="#pptop">
+      <svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="4" cy="17" r="2" fill="#1BE89F"/><circle cx="11" cy="6" r="2" fill="#1BE89F"/><circle cx="18" cy="13" r="2" fill="#1BE89F"/><path d="M4 17L11 6L18 13" stroke="#1BE89F" stroke-width="1" opacity=".6"/></svg>
+      ANNEX
+    </a>
+    <span class="pp-nav-meta">ADU PLAN PRE-CHECK // CONTRA COSTA CO.</span>
+    <a class="pp-nav-cta" href="#pricing">Init pre-check</a>
+  </div></div>
+
+  <!-- FILM 1 -->
+  <div class="pp-film" id="film1wrap">
+    <div class="pp-film-pin" id="film1pin">
+      <canvas id="film1canvas" class="pp-film-canvas"></canvas>
+      <div class="pp-film-top"></div><div class="pp-film-bot"></div>
+      <span class="pp-tick tl"></span><span class="pp-tick tr"></span><span class="pp-tick bl"></span><span class="pp-tick br"></span>
+      <div class="pp-hud" id="pptop"><div class="pp-wrap">
+        <span class="pp-hud-l"><span class="pp-rec"></span> ADU_01 // build_sequence</span>
+        <span class="pp-hud-r">FRM <b id="film1frm">00</b> / 31</span>
+      </div></div>
+
+      <div class="pp-cap" data-cap="0"><div class="pp-wrap"><div class="pp-inner">
+        <span class="pp-kicker">§66314 · state + local</span>
+        <h1>Pass plan check.<br><span class="g">First time.</span></h1>
+        <div class="pp-cta">
+          <a class="pp-btn pp-btn-primary" href="/start">Init pre-check &mdash; $99</a>
+          <a class="pp-btn pp-btn-ghost" href="#system">System</a>
+        </div>
+      </div></div></div>
+      <div class="pp-cap" data-cap="1"><div class="pp-wrap"><div class="pp-inner">
+        <span class="pp-kicker">build_sequence // complete</span>
+        <h1>Checked, then <span class="g">built.</span></h1>
+      </div></div></div>
+
+      <div class="pp-readout"><div class="pp-wrap">
+        <span class="pp-st">STAGE &#9656; <b id="film1stage">FOUNDATION</b></span>
+        <span class="pp-bar"><i id="film1prog"></i></span>
+        <span id="film1pctt">000%</span>
+      </div></div>
+      <div class="pp-film-loader" id="film1loader"><span class="pp-mono">ANNEX // LOADING</span><div class="pp-loadbar"><i id="film1loadi"></i></div><span class="pp-mono" id="film1pct">0%</span></div>
+    </div>
+  </div>
+
+  <!-- data strip -->
+  <div class="pp-strip"><div class="pp-wrap">
+    <span>STATE <b>&sect;66314</b></span><span>+ LOCAL AMENDMENTS</span><span><b>24H</b> TURNAROUND</span><span>EVERY FLAG <b>CITED</b></span><span><b>$99</b> / PROPERTY</span>
+  </div></div>
+
+  <!-- FILM 2 -->
+  <div class="pp-film" id="film2wrap">
+    <div class="pp-film-pin" id="film2pin">
+      <canvas id="film2canvas" class="pp-film-canvas"></canvas>
+      <div class="pp-film-top"></div><div class="pp-film-bot"></div>
+      <span class="pp-tick tl"></span><span class="pp-tick tr"></span><span class="pp-tick bl"></span><span class="pp-tick br"></span>
+      <div class="pp-hud"><div class="pp-wrap">
+        <span class="pp-hud-l"><span class="pp-rec"></span> ADU_02 // build_sequence</span>
+        <span class="pp-hud-r">FRM <b id="film2frm">00</b> / 31</span>
+      </div></div>
+      <div class="pp-cap" data-cap="0"><div class="pp-wrap"><div class="pp-inner">
+        <span class="pp-kicker">any design · any lot</span>
+        <h1>Any build.<br><span class="g">To code.</span></h1>
+      </div></div></div>
+      <div class="pp-cap" data-cap="1"><div class="pp-wrap"><div class="pp-inner">
+        <span class="pp-kicker">ready // for submittal</span>
+        <h1>No corrections.</h1>
+      </div></div></div>
+      <div class="pp-readout"><div class="pp-wrap">
+        <span class="pp-st">STAGE &#9656; <b id="film2stage">FOUNDATION</b></span>
+        <span class="pp-bar"><i id="film2prog"></i></span>
+        <span id="film2pctt">000%</span>
+      </div></div>
+      <div class="pp-film-loader" id="film2loader"><span class="pp-mono">ANNEX // LOADING</span><div class="pp-loadbar"><i id="film2loadi"></i></div><span class="pp-mono" id="film2pct">0%</span></div>
+    </div>
+  </div>
+
+  <!-- SYSTEM (minimal) -->
+  <div class="pp-sec grid" id="system">
+    <div class="pp-wrap">
+      <div class="pp-head pp-fade">
+        <span class="pp-kicker">[ system ]</span>
+        <h2>The check <span class="g">before the check.</span></h2>
+      </div>
+      <p class="pp-fade" style="max-width:640px;color:var(--muted);font-size:18px;margin-bottom:54px">We run your numbers against state ADU law and your city&rsquo;s amendments before the county does &mdash; so the correction notice never arrives.</p>
+      <div class="pp-spec pp-fade">
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Setbacks — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">01</span><span class="pp-nm">SETBACKS</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">01 // SETBACKS</span><span class="pp-bk"><b>4'-0"</b> min &middot; rear &amp; side</span><span class="pp-cite2">Gov. Code &sect;66314(d)(7)</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Height — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">02</span><span class="pp-nm">HEIGHT</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">02 // HEIGHT</span><span class="pp-bk"><b>16'</b> base allowance</span><span class="pp-cite2">Gov. Code &sect;66314(d)(8)</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Unit size — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">03</span><span class="pp-nm">UNIT SIZE</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">03 // UNIT SIZE</span><span class="pp-bk"><b>850</b> sf 1BR / <b>1,000</b> sf 2BR</span><span class="pp-cite2">state-protected maximums</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Lot coverage — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">04</span><span class="pp-nm">LOT COVERAGE</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">04 // LOT COVERAGE</span><span class="pp-bk">incl. <b>all</b> accessory structures</span><span class="pp-cite2">local ordinance</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Parking — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">05</span><span class="pp-nm">PARKING</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">05 // PARKING</span><span class="pp-bk"><b>1</b> space / unit max</span><span class="pp-cite2">Gov. Code &sect;66314(d)(10)</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Transit exemption — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">06</span><span class="pp-nm">TRANSIT EXEMPTION</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">06 // TRANSIT</span><span class="pp-bk">parking waived <b>&lt; &frac12; mi</b> to transit</span><span class="pp-cite2">Gov. Code &sect;66314(d)(10)</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Owner-occupancy — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">07</span><span class="pp-nm">OWNER-OCCUPANCY</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">07 // OCCUPANCY</span><span class="pp-bk"><b>not required</b> for the ADU</span><span class="pp-cite2">per current state law</span></div>
+        </div></div>
+        <div class="pp-cell" tabindex="0" role="button" aria-label="Submittal docs — flip for detail"><div class="pp-flip">
+          <div class="pp-face pp-front"><span class="pp-id">08</span><span class="pp-nm">SUBMITTAL DOCS</span><span class="pp-hint"><span class="pp-rot">&#8635;</span> flip</span></div>
+          <div class="pp-face pp-back"><span class="pp-id">08 // DOCS</span><span class="pp-bk">site plan &middot; elevations &middot; floor plan</span><span class="pp-cite2">city submittal set</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORT -->
+  <div class="pp-sec alt">
+    <div class="pp-wrap">
+      <div class="pp-head pp-fade">
+        <span class="pp-kicker">[ output ]</span>
+        <h2>One verdict. <span class="g">Every citation.</span></h2>
+      </div>
+      <div class="pp-report pp-fade" id="ppreport">
+        <div class="pp-scanline"></div>
+        <div class="pp-rhead"><span>PRE-CHECK // DETACHED ADU // 14 REQ</span><span class="pp-verdict">12 PASS &middot; 2 FLAG</span></div>
+        <div class="pp-rrow"><span class="pp-req">Rear setback</span><span class="pp-cite">&sect;66314(d)(7) &middot; min 4'-0"</span><span class="pp-val">4'-0"</span><span class="pp-badge pp-pass">PASS</span></div>
+        <div class="pp-rrow"><span class="pp-req">Side setback</span><span class="pp-cite">&sect;66314(d)(7) &middot; min 4'-0"</span><span class="pp-val">3'-0"</span><span class="pp-badge pp-flagb">FLAG</span></div>
+        <div class="pp-rrow"><span class="pp-req">Unit size &mdash; 1BR</span><span class="pp-cite">state max &middot; 850 sf</span><span class="pp-val">812 sf</span><span class="pp-badge pp-pass">PASS</span></div>
+        <div class="pp-rrow"><span class="pp-req">Height (detached)</span><span class="pp-cite">&sect;66314 &middot; 16' base</span><span class="pp-val">15'-6"</span><span class="pp-badge pp-pass">PASS</span></div>
+        <div class="pp-rnote"><b>FLAG_02 &#9656;</b> 3'-0" side setback &lt; 4'-0" min. Shift 1', or confirm conversion exemption. Detail &middot; report p.3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pp-sec grid" id="pricing">
+    <div class="pp-wrap">
+      <div class="pp-head pp-fade">
+        <span class="pp-kicker">[ pricing ]</span>
+        <h2>Cheaper than <span class="g">one week of delay.</span></h2>
+      </div>
+      <div class="pp-price-grid">
+        <div class="pp-price pp-fade">
+          <span class="pp-kicker">homeowners</span>
+          <div class="pp-amount">$99 <span>/ property</span></div>
+          <ul><li>state + city, every requirement</li><li>pass/flag, cited to code</li><li>plain-English fixes</li><li>submittal checklist</li><li>24h report</li></ul>
+          <a class="pp-btn pp-btn-primary" href="/start">Init pre-check</a>
+        </div>
+        <div class="pp-price feat pp-fade">
+          <span class="pp-kicker">designers + builders</span>
+          <div class="pp-amount">$149 <span>/ month</span></div>
+          <ul><li>unlimited checks</li><li>catch it before the client</li><li>12h priority</li><li>white-label option</li><li>cancel anytime</li></ul>
+          <a class="pp-btn pp-btn-ghost" href="/start">Start pro</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL -->
+  <div class="pp-final">
+    <div class="pp-wrap">
+      <p class="pp-line pp-fade">[ founding beta // first 5 free ]</p>
+      <h2 class="pp-fade">Submit once. <span class="g">Build sooner.</span></h2>
+      <p class="pp-line pp-fade">honest feedback in exchange for a free pre-check.</p>
+      <a class="pp-btn pp-btn-primary pp-fade" href="/start">Claim a free pre-check</a>
+    </div>
+  </div>
+
+  <div class="pp-foot"><div class="pp-wrap">
+    <div class="pp-foot-row"><span>ANNEX &#10022; CONTRA COSTA CO, CA</span><span>hello@annex.example</span></div>
+    <p class="pp-disc">Annex provides informational pre-checks against published state and municipal requirements. Not a building department; issues no approvals or permits; not legal, architectural, or engineering advice. Local jurisdiction determinations govern. Requirements current as of report date.</p>
+  </div></div>
+
+</div>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function band(p,a,b,c,d){ if(p<=a||p>=d) return 0; if(p<b) return (p-a)/(b-a); if(p<=c) return 1; return 1-(p-c)/(d-c); }
+  function pad(n){ n=Math.round(n); return (n<10?'0':'')+n; }
+
+  function setupFilm(cfg){
+    var wrap = document.getElementById(cfg.wrap), canvas = document.getElementById(cfg.canvas), FRAMES = cfg.frames;
+    if(!wrap || !canvas || !FRAMES || !FRAMES.length) return;
+    var ctx = canvas.getContext('2d');
+    var N = FRAMES.length, imgs = new Array(N), loaded = 0, lastIdx = -1;
+    var prog = document.getElementById(cfg.prog), stageEl = document.getElementById(cfg.stage);
+    var frm = document.getElementById(cfg.frm), pctt = document.getElementById(cfg.pctt);
+    var loader = document.getElementById(cfg.loader), loadi = document.getElementById(cfg.loadi), pct = document.getElementById(cfg.pct);
+    var pin = document.getElementById(cfg.pin);
+    var caps = [].slice.call(wrap.querySelectorAll('.pp-cap'));
+    var STAGES = ['FOUNDATION','FRAMING','ENVELOPE','COMPLETE'];
+    var lastStage = -1, targetIdx = 0, curIdx = 0, raf = null, checked = false, broken = false;
+
+    function isReady(im){ return im && im.complete && im.naturalWidth > 0; }
+    function resize(){
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var r = canvas.getBoundingClientRect();
+      canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+      draw(Math.round(curIdx), true);
+    }
+    function draw(idx, force){
+      idx = idx < 0 ? 0 : (idx > N - 1 ? N - 1 : idx);
+      if(!force && idx === lastIdx) return;
+      var im = imgs[idx];
+      if(!isReady(im)){ for(var d=1; d<N; d++){ if(isReady(imgs[idx-d])){im=imgs[idx-d];break;} if(isReady(imgs[idx+d])){im=imgs[idx+d];break;} } }
+      if(!isReady(im)) return;
+      lastIdx = idx;
+      var cw = canvas.width, ch = canvas.height, ir = im.naturalWidth/im.naturalHeight, cr = cw/ch, dw,dh,dx,dy;
+      if(cr > ir){ dw=cw; dh=cw/ir; dx=0; dy=(ch-dh)/2; } else { dh=ch; dw=ch*ir; dx=(cw-dw)/2; dy=0; }
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+      ctx.clearRect(0,0,cw,ch); ctx.drawImage(im, dx, dy, dw, dh);
+    }
+    function progress(){ var r = wrap.getBoundingClientRect(), dist = r.height - window.innerHeight; if(dist<=0) return 0; var p=(-r.top)/dist; return p<0?0:(p>1?1:p); }
+    function ensurePin(p){
+      if(!pin) return;
+      if(!checked && p>0.04 && p<0.92){ checked=true; if(Math.abs(pin.getBoundingClientRect().top)>60) broken=true; }
+      if(broken){ if(p>=1){pin.style.position='absolute';pin.style.top='auto';pin.style.bottom='0';} else if(p<=0){pin.style.position='absolute';pin.style.top='0';pin.style.bottom='auto';} else {pin.style.position='fixed';pin.style.top='0';pin.style.bottom='auto';} pin.style.left='0';pin.style.right='0'; }
+    }
+    var capR = [[-1,-1,0.10,0.17],[0.74,0.84,2,2]];
+    function setUI(p){
+      if(prog) prog.style.width = (p*100).toFixed(1) + '%';
+      if(pctt) pctt.textContent = pad(p*100) + '%';
+      if(frm) frm.textContent = pad(p*(N-1));
+      var si = p<0.30?0:(p<0.58?1:(p<0.85?2:3));
+      if(si !== lastStage){ lastStage = si; if(stageEl) stageEl.textContent = STAGES[si]; }
+      for(var i=0;i<caps.length;i++){ var r=capR[i]||[-1,-1,2,2], o=band(p,r[0],r[1],r[2],r[3]), ty=0;
+        if(p<r[1]) ty=22*(1-o); else if(p>r[2]) ty=-18*(1-o);
+        caps[i].style.opacity=o.toFixed(3); caps[i].style.transform='translateY('+ty.toFixed(1)+'px)'; caps[i].style.pointerEvents=o>0.6?'auto':'none'; }
+    }
+    function renderLoop(){ curIdx += (targetIdx-curIdx)*0.16; if(Math.abs(targetIdx-curIdx)<0.4){ curIdx=targetIdx; draw(Math.round(curIdx)); raf=null; return; } draw(Math.round(curIdx)); raf=window.requestAnimationFrame(renderLoop); }
+    var ticking = false;
+    function onScroll(){ if(ticking) return; ticking=true; window.requestAnimationFrame(function(){ var p=progress(); ensurePin(p); setUI(p); targetIdx=p*(N-1); if(reduced){curIdx=targetIdx;draw(Math.round(curIdx));} else if(raf==null){raf=window.requestAnimationFrame(renderLoop);} ticking=false; }); }
+    for(var i=0;i<N;i++){ (function(i){ var im=new Image(); im.decoding='async'; im.onload=im.onerror=function(){ loaded++; var lp=Math.round(loaded/N*100); if(loadi)loadi.style.width=lp+'%'; if(pct)pct.textContent=lp+'%'; if(i===0)draw(0,true); if(loaded>=N && loader)loader.classList.add('pp-hide'); }; im.src=FRAMES[i]; imgs[i]=im; })(i); }
+    resize();
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', function(){ resize(); onScroll(); });
+    onScroll();
+  }
+
+  setupFilm({ wrap:'film1wrap', pin:'film1pin', canvas:'film1canvas', prog:'film1prog', stage:'film1stage', frm:'film1frm', pctt:'film1pctt', loader:'film1loader', loadi:'film1loadi', pct:'film1pct', frames: ["https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_001.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_002.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_003.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_004.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_005.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_006.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_007.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_008.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_009.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_010.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_011.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_012.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_013.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_014.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_015.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_016.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_017.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_018.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_019.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_020.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_021.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_022.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_023.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_024.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_025.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_026.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_027.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_028.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_029.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_030.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_031.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/a_032.jpg"] });
+  setupFilm({ wrap:'film2wrap', pin:'film2pin', canvas:'film2canvas', prog:'film2prog', stage:'film2stage', frm:'film2frm', pctt:'film2pctt', loader:'film2loader', loadi:'film2loadi', pct:'film2pct', frames: ["https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_001.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_002.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_003.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_004.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_005.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_006.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_007.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_008.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_009.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_010.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_011.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_012.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_013.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_014.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_015.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_016.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_017.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_018.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_019.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_020.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_021.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_022.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_023.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_024.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_025.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_026.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_027.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_028.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_029.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_030.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_031.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/b_032.jpg"] });
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('pp-in'); io.unobserve(e.target); } }); }, { threshold:.12 });
+    document.querySelectorAll('#pp .pp-fade').forEach(function(el){ io.observe(el); });
+    var report = document.getElementById('ppreport');
+    if(report){ var ro = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ report.classList.add('run'); ro.unobserve(report); } }); }, { threshold:.35 }); ro.observe(report); }
+  } else { document.querySelectorAll('#pp .pp-fade').forEach(function(el){ el.classList.add('pp-in'); }); }
+
+  /* Flip cards */
+  document.querySelectorAll('#pp .pp-spec .pp-cell').forEach(function(c){
+    function toggle(){ c.classList.toggle('is-flipped'); }
+    c.addEventListener('click', toggle);
+    c.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32){ e.preventDefault(); toggle(); }
+    });
+  });
+})();
+
+/* ===== Constellation — sparse, real glowing stars, scroll-morphing, light cursor ===== */
+(function(){
+  var canvas = document.getElementById('ppstars');
+  if(!canvas) return;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var stars = [], meteors = [], w = 0, h = 0;
+  var mx = -9999, my = -9999, hasCursor = false, px = 0, py = 0, raf = null;
+
+  function build(){
+    w = canvas.width = Math.max(1, Math.round(window.innerWidth * dpr));
+    h = canvas.height = Math.max(1, Math.round(window.innerHeight * dpr));
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    var count = Math.max(28, Math.min(60, Math.round(window.innerWidth / 26)));
+    stars = [];
+    for(var i = 0; i < count; i++){
+      var depth = Math.random();
+      stars.push({
+        bx: Math.random(), by: Math.random(), depth: depth,
+        r: (0.55 + depth * 1.55) * dpr,
+        a: 0.35 + Math.random() * 0.5,
+        tw: Math.random() * Math.PI * 2,
+        ts: 0.004 + Math.random() * 0.015,
+        spikes: depth > 0.66,
+        ax: (16 + depth * 44) * dpr, ay: (16 + depth * 44) * dpr,
+        fx: 0.5 + Math.random() * 1.0, fy: 0.5 + Math.random() * 1.0,
+        phx: Math.random() * 6.2832, phy: Math.random() * 6.2832,
+        x: 0, y: 0
+      });
+    }
+  }
+  /* soft diffraction spike that tapers to a point at both ends */
+  function spike(x, y, L, horiz, al){
+    var g = horiz ? ctx.createLinearGradient(x - L, y, x + L, y) : ctx.createLinearGradient(x, y - L, x, y + L);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    g.addColorStop(0.5, 'rgba(255,255,255,' + al.toFixed(3) + ')');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.strokeStyle = g; ctx.lineWidth = 0.8 * dpr; ctx.beginPath();
+    if(horiz){ ctx.moveTo(x - L, y); ctx.lineTo(x + L, y); } else { ctx.moveTo(x, y - L); ctx.lineTo(x, y + L); }
+    ctx.stroke();
+  }
+  function spawn(){
+    if(reduced) return;
+    meteors.push({ x: Math.random()*w*.8 + w*.1, y: -20, vx: (2.3+Math.random()*1.8)*dpr, vy: (2.8+Math.random()*1.8)*dpr, life: 1 });
+    setTimeout(spawn, 6000 + Math.random()*8000);
+  }
+  function frame(){
+    /* gentle cursor parallax (subtle) */
+    var tx = hasCursor ? (mx / w - .5) : 0;
+    var ty = hasCursor ? (my / h - .5) : 0;
+    px += (tx - px) * 0.05; py += (ty - py) * 0.05;
+    /* scroll phase — the whole pattern slowly re-forms as you scroll */
+    var sc = (window.scrollY || window.pageYOffset || 0) / 700;
+
+    ctx.clearRect(0, 0, w, h);
+    var n = stars.length, K = 14 * dpr, react = 150 * dpr, i, j, s;
+    for(i = 0; i < n; i++){ s = stars[i];
+      s.x = s.bx * w + s.ax * Math.sin(sc * s.fx + s.phx) - px * K * s.depth;
+      s.y = s.by * h + s.ay * Math.cos(sc * s.fy + s.phy) - py * K * s.depth;
+    }
+
+    /* constellation lines (white, faint, a touch brighter near cursor) */
+    ctx.lineWidth = .55 * dpr;
+    var lim = 130 * dpr;
+    for(i = 0; i < n; i++){ var a = stars[i];
+      for(j = i + 1; j < n; j++){ var b = stars[j], dx = a.x-b.x, dy = a.y-b.y, d = Math.sqrt(dx*dx+dy*dy);
+        if(d < lim){ var al = 0.06 * (1 - d/lim);
+          if(hasCursor){ var ccx = (a.x+b.x)*.5 - mx, ccy = (a.y+b.y)*.5 - my, cd = Math.sqrt(ccx*ccx+ccy*ccy); if(cd < react){ al += 0.10 * (1 - cd/react); } }
+          ctx.strokeStyle = 'rgba(255,255,255,' + al.toFixed(3) + ')'; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    /* real stars: radial glow + bright core + diffraction spikes */
+    for(i = 0; i < n; i++){ s = stars[i];
+      if(!reduced) s.tw += s.ts;
+      var tw = 0.6 + Math.sin(s.tw) * 0.4;
+      var alpha = s.a * tw, rad = s.r;
+      if(hasCursor){ var ex = s.x-mx, ey = s.y-my, ed = Math.sqrt(ex*ex+ey*ey);
+        if(ed < react){ var f = 1 - ed/react; alpha = Math.min(1, alpha + f*0.3);
+          if(f > 0.12){ ctx.strokeStyle = 'rgba(255,255,255,' + (0.16*f).toFixed(3) + ')'; ctx.lineWidth = .55*dpr; ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(mx, my); ctx.stroke(); }
+        }
+      }
+      var R = rad * 4.2;
+      var g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, R);
+      g.addColorStop(0, 'rgba(255,255,255,' + Math.min(1, alpha).toFixed(3) + ')');
+      g.addColorStop(0.3, 'rgba(255,255,255,' + (alpha*0.22).toFixed(3) + ')');
+      g.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(s.x, s.y, R, 0, 6.2832); ctx.fill();
+      if(s.spikes){ var L = R * 1.7 * tw, sa = alpha * 0.4; spike(s.x, s.y, L, true, sa); spike(s.x, s.y, L, false, sa); }
+      ctx.fillStyle = 'rgba(255,255,255,' + Math.min(1, alpha*1.05).toFixed(3) + ')'; ctx.beginPath(); ctx.arc(s.x, s.y, rad*0.72, 0, 6.2832); ctx.fill();
+    }
+    /* shooting stars (white, rarer) */
+    for(var m = meteors.length - 1; m >= 0; m--){ var mt = meteors[m]; mt.x += mt.vx; mt.y += mt.vy; mt.life -= .012;
+      if(mt.life <= 0 || mt.y > h){ meteors.splice(m, 1); continue; }
+      var tail = 64*dpr, mg = ctx.createLinearGradient(mt.x, mt.y, mt.x - mt.vx*tail/4, mt.y - mt.vy*tail/4);
+      mg.addColorStop(0, 'rgba(255,255,255,' + (mt.life*.9).toFixed(2) + ')');
+      mg.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = mg; ctx.lineWidth = 1.3*dpr; ctx.beginPath(); ctx.moveTo(mt.x, mt.y); ctx.lineTo(mt.x - mt.vx*tail/4, mt.y - mt.vy*tail/4); ctx.stroke();
+    }
+    raf = (!reduced && !document.hidden) ? window.requestAnimationFrame(frame) : null;
+  }
+  function loop(){ if(raf == null) raf = window.requestAnimationFrame(frame); }
+
+  build();
+  window.addEventListener('mousemove', function(e){ mx = e.clientX*dpr; my = e.clientY*dpr; hasCursor = true; }, { passive: true });
+  window.addEventListener('mouseout', function(e){ if(!e.relatedTarget){ hasCursor = false; mx = my = -9999; } }, { passive: true });
+  window.addEventListener('touchmove', function(e){ if(e.touches[0]){ mx = e.touches[0].clientX*dpr; my = e.touches[0].clientY*dpr; hasCursor = true; } }, { passive: true });
+  window.addEventListener('touchend', function(){ hasCursor = false; mx = my = -9999; }, { passive: true });
+  window.addEventListener('resize', function(){ build(); if(reduced) frame(); });
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) loop(); });
+  if(reduced){ build(); frame(); } else { loop(); setTimeout(spawn, 2200); }
+})();
+</script>
