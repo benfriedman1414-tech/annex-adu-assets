@@ -436,7 +436,10 @@ html,body{background:#12181E;margin:0}
     function renderLoop(){ curIdx += (targetIdx-curIdx)*0.16; if(Math.abs(targetIdx-curIdx)<0.4){ curIdx=targetIdx; draw(Math.round(curIdx)); raf=null; return; } draw(Math.round(curIdx)); raf=window.requestAnimationFrame(renderLoop); }
     var ticking = false;
     function onScroll(){ if(ticking) return; ticking=true; window.requestAnimationFrame(function(){ var p=progress(); ensurePin(p); setUI(p); targetIdx=p*(N-1); if(reduced){curIdx=targetIdx;draw(Math.round(curIdx));} else if(raf==null){raf=window.requestAnimationFrame(renderLoop);} ticking=false; }); }
-    for(var i=0;i<N;i++){ (function(i){ var im=new Image(); im.decoding='async'; im.onload=im.onerror=function(){ loaded++; var lp=Math.round(loaded/N*100); if(loadi)loadi.style.width=lp+'%'; if(pct)pct.textContent=lp+'%'; if(i===0)draw(0,true); if(loaded>=N && loader)loader.classList.add('pp-hide'); }; im.src=FRAMES[i]; imgs[i]=im; })(i); }
+    for(var i=0;i<N;i++){ (function(i){ var im=new Image(); try{ im.decoding='async'; im.fetchPriority='high'; }catch(e){}
+      var done=function(){ loaded++; var lp=Math.round(loaded/N*100); if(loadi)loadi.style.width=lp+'%'; if(pct)pct.textContent=lp+'%'; if(i===0)draw(0,true); if(loaded>=N && loader)loader.classList.add('pp-hide'); };
+      im.onload=function(){ if(im.decode){ im.decode().then(done).catch(done); } else { done(); } };
+      im.onerror=done; im.src=FRAMES[i]; imgs[i]=im; })(i); }
     resize();
     window.addEventListener('scroll', onScroll, { passive:true });
     window.addEventListener('resize', function(){ resize(); onScroll(); });
