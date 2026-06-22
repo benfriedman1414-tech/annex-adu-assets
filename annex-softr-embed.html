@@ -14,6 +14,10 @@ CTAs -> /start. Replace hello@annex.example. Scoped under #pp.
 
 html,body{background:#12181E;margin:0}
 
+/* Full-bleed: break out of Softr's boxed container + horizontal section padding so the site covers the whole page */
+.custom-code-block-content:has(#pp){max-width:100%!important;width:100%!important;padding-left:0!important;padding-right:0!important;background:#12181E!important}
+section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:100%!important;background:#12181E!important}
+
 #pp{
   --void:#12181E; --void-2:#171F26; --panel:#1C2630;
   --emerald:#1BE89F; --emerald-soft:#8CFAD2; --emerald-deep:#0a9a68;
