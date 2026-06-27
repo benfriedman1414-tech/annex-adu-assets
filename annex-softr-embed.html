@@ -1,9 +1,11 @@
 <!-- ============================================================
-ANNEX — SOFTR CUSTOM CODE BLOCK  (techy-minimal, v5)
-ADU Plan Pre-Check · Contra Costa County
+ANNEX — SOFTR CUSTOM CODE BLOCK  (scrollytelling, v6)
+ADU Plan Pre-Check · Bay Area
 
-Dark, techy, minimal. Two full-screen scroll-scrubbed builds (native res,
-bright daytime), monospace HUD + blueprint grid, very few words.
+Awwwards-style scrollytelling: two full-screen scroll-scrubbed builds with
+parallax caption beats + scroll cue, an animated stat band, a process timeline
+that draws its rail on scroll, flip-card system, live report, FAQ accordion,
+chapter-dot nav + top progress rail. Monospace HUD, blueprint grid.
 
 USE: paste into one Softr Custom Code block (only block). Page bg: #12181E.
 CTAs -> /start. Replace hello@annex.example. Scoped under #pp.
@@ -37,6 +39,20 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
 #pp .pp-kicker{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--emerald);text-shadow:0 0 16px var(--glow)}
 #pp h1,#pp h2,#pp h3{font-family:'Sora',sans-serif;font-weight:600;color:#fff;letter-spacing:-.02em}
 #pp a{color:inherit;text-decoration:none}
+
+/* scroll-progress rail (top) */
+#pp .pp-prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--emerald);box-shadow:0 0 14px var(--glow);z-index:70;transition:width .08s linear}
+
+/* chapter dots (right) */
+#pp .pp-dots{position:fixed;right:18px;top:50%;transform:translateY(-50%);z-index:61;display:none;flex-direction:column;gap:13px;align-items:flex-end}
+@media (min-width:1024px){ #pp .pp-dots{display:flex} }
+#pp .pp-dots a{display:flex;align-items:center;gap:9px;color:var(--faint);font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase}
+#pp .pp-dots a .pp-dlabel{opacity:0;transform:translateX(6px);transition:all .2s;white-space:nowrap}
+#pp .pp-dots a:hover .pp-dlabel,#pp .pp-dots a.on .pp-dlabel{opacity:1;transform:none}
+#pp .pp-dots a .pp-dt{width:8px;height:8px;border-radius:50%;border:1px solid var(--faint);transition:all .2s;flex-shrink:0}
+#pp .pp-dots a:hover .pp-dt{border-color:var(--emerald)}
+#pp .pp-dots a.on{color:var(--emerald)}
+#pp .pp-dots a.on .pp-dt{background:var(--emerald);border-color:var(--emerald);box-shadow:0 0 12px var(--glow)}
 
 /* Buttons */
 #pp .pp-btn{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:14px 22px;border-radius:4px;transition:all .22s;font-weight:500}
@@ -83,6 +99,15 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
 #pp .pp-cap .pp-line{margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.1em;color:var(--muted)}
 #pp .pp-cap .pp-line b{color:var(--emerald)}
 #pp .pp-cap .pp-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+/* small parallax "beat" overlay */
+#pp .pp-cap.sm{bottom:auto;top:32vh}
+#pp .pp-cap.sm .pp-kicker{display:block;margin-bottom:14px}
+#pp .pp-cap.sm .pp-beat{font-family:'Sora',sans-serif;font-weight:500;font-size:clamp(20px,2.7vw,32px);line-height:1.28;color:#fff;max-width:580px;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+#pp .pp-cap.sm .pp-beat b{color:var(--emerald);font-weight:600}
+/* scroll cue */
+#pp .pp-scrollcue{position:absolute;left:0;right:0;bottom:60px;z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);transition:opacity .3s}
+#pp .pp-scrollcue .pp-arr{width:18px;height:18px;border-right:1.5px solid var(--emerald);border-bottom:1.5px solid var(--emerald);transform:rotate(45deg);animation:ppbob 1.7s ease-in-out infinite}
+@keyframes ppbob{0%,100%{transform:rotate(45deg) translate(0,0);opacity:.45}50%{transform:rotate(45deg) translate(3px,3px);opacity:1}}
 /* readouts */
 #pp .pp-readout{position:absolute;left:0;right:0;bottom:30px;z-index:5;pointer-events:none}
 #pp .pp-readout .pp-wrap{display:flex;align-items:center;gap:16px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted)}
@@ -112,6 +137,23 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
 #pp .pp-head h2{font-size:clamp(30px,4.2vw,48px);line-height:1.06;color:#fff}
 #pp .pp-head h2 .g{color:var(--emerald)}
 #pp .pp-divider{height:1px;background:var(--line-soft)}
+
+/* stat band */
+#pp .pp-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+#pp .pp-stat{padding:8px 4px;text-align:center}
+#pp .pp-stat .pp-n{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:clamp(36px,5.4vw,60px);color:#fff;line-height:1;letter-spacing:-.02em}
+#pp .pp-stat .pp-n .g{color:var(--emerald);text-shadow:0 0 26px var(--glow)}
+#pp .pp-stat .pp-l{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:14px}
+
+/* process timeline */
+#pp .pp-steps{position:relative}
+#pp .pp-step{display:grid;grid-template-columns:46px 1fr;gap:22px;padding:18px 0;position:relative}
+#pp .pp-step .pp-snum{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--emerald);border:1px solid var(--line);border-radius:50%;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:var(--void);z-index:2;box-shadow:0 0 22px rgba(27,232,159,.12)}
+#pp .pp-step .pp-sttl{font-family:'Sora',sans-serif;font-weight:600;font-size:19px;color:#fff;margin-bottom:5px}
+#pp .pp-step .pp-sdesc{color:var(--muted);font-size:15px;max-width:540px}
+#pp .pp-steps .pp-rail{position:absolute;left:23px;top:42px;bottom:42px;width:1px;background:var(--line-soft);overflow:hidden;z-index:1}
+#pp .pp-steps .pp-rail i{position:absolute;left:0;top:0;width:100%;height:0;background:var(--emerald);box-shadow:0 0 12px var(--glow);transition:height 1.5s ease .15s}
+#pp .pp-steps.pp-in .pp-rail i{height:100%}
 
 /* spec flip cards (what it checks) */
 #pp .pp-spec{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
@@ -158,6 +200,18 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
 #pp .pp-rnote{padding:18px 24px;background:var(--void-2);border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);font-family:'JetBrains Mono',monospace}
 #pp .pp-rnote b{color:var(--flag)}
 
+/* FAQ accordion */
+#pp .pp-faq{max-width:780px}
+#pp .pp-item{border-bottom:1px solid var(--line-soft)}
+#pp .pp-item:first-child{border-top:1px solid var(--line-soft)}
+#pp .pp-q{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;padding:22px 4px;cursor:pointer;font-family:'Sora',sans-serif;font-weight:500;font-size:17px;color:#fff;background:none;border:0;text-align:left;transition:color .2s}
+#pp .pp-q:hover{color:var(--emerald)}
+#pp .pp-q .pp-pm{font-family:'JetBrains Mono',monospace;color:var(--emerald);font-size:20px;transition:transform .25s;flex-shrink:0}
+#pp .pp-item.open .pp-q .pp-pm{transform:rotate(45deg)}
+#pp .pp-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+#pp .pp-item.open .pp-a{max-height:260px}
+#pp .pp-a p{padding:0 4px 24px;max-width:700px;color:var(--muted);font-size:15px}
+
 /* pricing */
 #pp .pp-price-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:840px}
 #pp .pp-price{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:36px 32px;transition:all .25s}
@@ -185,16 +239,19 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
 
 @media (prefers-reduced-motion: reduce){
   #pp .pp-fade{opacity:1;transform:none;transition:none}
-  #pp .pp-rec{animation:none}
+  #pp .pp-rec,#pp .pp-scrollcue .pp-arr{animation:none}
   #pp .pp-report .pp-badge,#pp .pp-verdict{opacity:1;transform:none;transition:none}
+  #pp .pp-steps .pp-rail i{transition:none}
 }
 @media (max-width:860px){
   #pp .pp-spec{grid-template-columns:1fr 1fr}
+  #pp .pp-stats-grid{grid-template-columns:1fr 1fr;gap:34px 18px}
   #pp .pp-price-grid{grid-template-columns:1fr}
   #pp .pp-rrow{grid-template-columns:1.2fr .8fr .6fr}
   #pp .pp-rrow .pp-cite{display:none}
   #pp .pp-sec{padding:84px 0}
   #pp .pp-cap{bottom:12vh}
+  #pp .pp-cap.sm{top:26vh}
   #pp .pp-tick{display:none}
 }
 </style>
@@ -202,13 +259,22 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
 <div id="pp">
 
   <canvas id="ppstars" class="pp-stars" aria-hidden="true"></canvas>
+  <div class="pp-prog" id="ppprog"></div>
+
+  <nav class="pp-dots" id="ppdots" aria-label="Sections">
+    <a href="#film1wrap"><span class="pp-dlabel">Build 01</span><span class="pp-dt"></span></a>
+    <a href="#film2wrap"><span class="pp-dlabel">Build 02</span><span class="pp-dt"></span></a>
+    <a href="#process"><span class="pp-dlabel">Process</span><span class="pp-dt"></span></a>
+    <a href="#system"><span class="pp-dlabel">System</span><span class="pp-dt"></span></a>
+    <a href="#pricing"><span class="pp-dlabel">Pricing</span><span class="pp-dt"></span></a>
+  </nav>
 
   <div class="pp-nav"><div class="pp-wrap pp-nav-inner">
     <a class="pp-logo" href="#pptop">
       <svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="4" cy="17" r="2" fill="#1BE89F"/><circle cx="11" cy="6" r="2" fill="#1BE89F"/><circle cx="18" cy="13" r="2" fill="#1BE89F"/><path d="M4 17L11 6L18 13" stroke="#1BE89F" stroke-width="1" opacity=".6"/></svg>
       ANNEX
     </a>
-    <span class="pp-nav-meta">ADU PLAN PRE-CHECK // CONTRA COSTA CO.</span>
+    <span class="pp-nav-meta">ADU PLAN PRE-CHECK // BAY AREA</span>
     <a class="pp-nav-cta" href="#pricing">Init pre-check</a>
   </div></div>
 
@@ -223,7 +289,7 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
         <span class="pp-hud-r">FRM <b id="film1frm">00</b> / 119</span>
       </div></div>
 
-      <div class="pp-cap" data-cap="0"><div class="pp-wrap"><div class="pp-inner">
+      <div class="pp-cap" data-band="-1,-1,0.07,0.14"><div class="pp-wrap"><div class="pp-inner">
         <span class="pp-kicker">§66314 · state + local</span>
         <h1>Pass plan check.<br><span class="g">First time.</span></h1>
         <div class="pp-cta">
@@ -231,7 +297,11 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
           <a class="pp-btn pp-btn-ghost" href="#system">System</a>
         </div>
       </div></div></div>
-      <div class="pp-cap" data-cap="1"><div class="pp-wrap"><div class="pp-inner">
+      <div class="pp-cap sm" data-band="0.30,0.40,0.52,0.62"><div class="pp-wrap"><div class="pp-inner">
+        <span class="pp-kicker">checkpoint // 01</span>
+        <p class="pp-beat">Setbacks, height, and unit size &mdash; <b>cross-checked live</b> against state law as the structure goes up.</p>
+      </div></div></div>
+      <div class="pp-cap" data-band="0.80,0.90,2,2"><div class="pp-wrap"><div class="pp-inner">
         <span class="pp-kicker">build_sequence // complete</span>
         <h1>Checked, then <span class="g">built.</span></h1>
       </div></div></div>
@@ -241,6 +311,7 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
         <span class="pp-bar"><i id="film1prog"></i></span>
         <span id="film1pctt">000%</span>
       </div></div>
+      <div class="pp-scrollcue" id="ppcue"><span>Scroll to explore</span><span class="pp-arr"></span></div>
       <div class="pp-film-loader" id="film1loader"><span class="pp-mono">ANNEX // LOADING</span><div class="pp-loadbar"><i id="film1loadi"></i></div><span class="pp-mono" id="film1pct">0%</span></div>
     </div>
   </div>
@@ -260,13 +331,17 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
         <span class="pp-hud-l"><span class="pp-rec"></span> ADU_02 // build_sequence</span>
         <span class="pp-hud-r">FRM <b id="film2frm">00</b> / 119</span>
       </div></div>
-      <div class="pp-cap" data-cap="0"><div class="pp-wrap"><div class="pp-inner">
+      <div class="pp-cap" data-band="-1,-1,0.07,0.14"><div class="pp-wrap"><div class="pp-inner">
         <span class="pp-kicker">any design · any lot</span>
         <h1>Any build.<br><span class="g">To code.</span></h1>
       </div></div></div>
-      <div class="pp-cap" data-cap="1"><div class="pp-wrap"><div class="pp-inner">
+      <div class="pp-cap sm" data-band="0.30,0.40,0.52,0.62"><div class="pp-wrap"><div class="pp-inner">
+        <span class="pp-kicker">checkpoint // 02</span>
+        <p class="pp-beat">Your city&rsquo;s <b>local amendments</b>, layered on top of the state minimums &mdash; automatically.</p>
+      </div></div></div>
+      <div class="pp-cap" data-band="0.80,0.90,2,2"><div class="pp-wrap"><div class="pp-inner">
         <span class="pp-kicker">ready // for submittal</span>
-        <h1>No corrections.</h1>
+        <h1>No <span class="g">corrections.</span></h1>
       </div></div></div>
       <div class="pp-readout"><div class="pp-wrap">
         <span class="pp-st">STAGE &#9656; <b id="film2stage">FOUNDATION</b></span>
@@ -274,6 +349,35 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
         <span id="film2pctt">000%</span>
       </div></div>
       <div class="pp-film-loader" id="film2loader"><span class="pp-mono">ANNEX // LOADING</span><div class="pp-loadbar"><i id="film2loadi"></i></div><span class="pp-mono" id="film2pct">0%</span></div>
+    </div>
+  </div>
+
+  <!-- STAT BAND -->
+  <div class="pp-sec" style="padding:96px 0">
+    <div class="pp-wrap">
+      <div class="pp-stats-grid">
+        <div class="pp-stat pp-fade"><div class="pp-n"><span data-count="14"></span></div><div class="pp-l">requirements / check</div></div>
+        <div class="pp-stat pp-fade" style="transition-delay:.08s"><div class="pp-n"><span data-count="24" data-suf="H"></span></div><div class="pp-l">report turnaround</div></div>
+        <div class="pp-stat pp-fade" style="transition-delay:.16s"><div class="pp-n"><span class="g" data-count="99" data-pre="$"></span></div><div class="pp-l">flat / property</div></div>
+        <div class="pp-stat pp-fade" style="transition-delay:.24s"><div class="pp-n"><span data-count="100" data-suf="%"></span></div><div class="pp-l">flags cited to code</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="pp-sec grid" id="process">
+    <div class="pp-wrap">
+      <div class="pp-head pp-fade">
+        <span class="pp-kicker">[ process ]</span>
+        <h2>Four steps. <span class="g">Zero surprises.</span></h2>
+      </div>
+      <div class="pp-steps pp-fade">
+        <div class="pp-rail"><i></i></div>
+        <div class="pp-step pp-fade"><div class="pp-snum">01</div><div><div class="pp-sttl">Send your lot</div><div class="pp-sdesc">Drop in your address and lot &mdash; or upload plans if you have them. Two minutes, no account.</div></div></div>
+        <div class="pp-step pp-fade" style="transition-delay:.08s"><div class="pp-snum">02</div><div><div class="pp-sttl">We cross-check the code</div><div class="pp-sdesc">State &sect;66314 and your city&rsquo;s local amendments, run line by line against your numbers.</div></div></div>
+        <div class="pp-step pp-fade" style="transition-delay:.16s"><div class="pp-snum">03</div><div><div class="pp-sttl">You get a cited verdict</div><div class="pp-sdesc">Pass or flag on every requirement, each one cited to the exact code section &mdash; within 24 hours.</div></div></div>
+        <div class="pp-step pp-fade" style="transition-delay:.24s"><div class="pp-snum">04</div><div><div class="pp-sttl">Fix once, build sooner</div><div class="pp-sdesc">Clear the flags before submittal, hand the county a clean set, and skip the correction-notice loop.</div></div></div>
+      </div>
     </div>
   </div>
 
@@ -341,6 +445,23 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
     </div>
   </div>
 
+  <!-- FAQ -->
+  <div class="pp-sec alt" id="faq">
+    <div class="pp-wrap">
+      <div class="pp-head pp-fade">
+        <span class="pp-kicker">[ faq ]</span>
+        <h2>Before you <span class="g">ask.</span></h2>
+      </div>
+      <div class="pp-faq pp-fade">
+        <div class="pp-item"><button class="pp-q" type="button">Is this a permit?<span class="pp-pm">+</span></button><div class="pp-a"><p>No. Annex is an informational pre-check against published state and city requirements. Your building department still issues the permit &mdash; we just make sure your set is ready before it gets there.</p></div></div>
+        <div class="pp-item"><button class="pp-q" type="button">Which areas do you cover?<span class="pp-pm">+</span></button><div class="pp-a"><p>State ADU law applies everywhere in California. On top of that we layer the local amendments for Bay Area jurisdictions, so your check reflects the rules your city actually enforces.</p></div></div>
+        <div class="pp-item"><button class="pp-q" type="button">How fast is it?<span class="pp-pm">+</span></button><div class="pp-a"><p>24 hours for a standard pre-check. Designers and builders on a plan get 12-hour priority.</p></div></div>
+        <div class="pp-item"><button class="pp-q" type="button">What do I need to send?<span class="pp-pm">+</span></button><div class="pp-a"><p>At minimum, your address and lot. If you have a site plan, elevations, or a floor plan, send them and the check gets more precise.</p></div></div>
+        <div class="pp-item"><button class="pp-q" type="button">What happens if I&rsquo;m flagged?<span class="pp-pm">+</span></button><div class="pp-a"><p>Every flag comes with the code citation and a plain-English fix. Most are a small dimension change &mdash; far cheaper to catch now than as a correction notice later.</p></div></div>
+      </div>
+    </div>
+  </div>
+
   <!-- PRICING -->
   <div class="pp-sec grid" id="pricing">
     <div class="pp-wrap">
@@ -376,7 +497,7 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
   </div>
 
   <div class="pp-foot"><div class="pp-wrap">
-    <div class="pp-foot-row"><span>ANNEX &#10022; CONTRA COSTA CO, CA</span><span>hello@annex.example</span></div>
+    <div class="pp-foot-row"><span>ANNEX &#10022; BAY AREA, CA</span><span>hello@annex.example</span></div>
     <p class="pp-disc">Annex provides informational pre-checks against published state and municipal requirements. Not a building department; issues no approvals or permits; not legal, architectural, or engineering advice. Local jurisdiction determinations govern. Requirements current as of report date.</p>
   </div></div>
 
@@ -398,6 +519,7 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
     var loader = document.getElementById(cfg.loader), loadi = document.getElementById(cfg.loadi), pct = document.getElementById(cfg.pct);
     var pin = document.getElementById(cfg.pin);
     var caps = [].slice.call(wrap.querySelectorAll('.pp-cap'));
+    caps.forEach(function(el){ el._b = (el.getAttribute('data-band')||'-1,-1,2,2').split(',').map(Number); });
     var STAGES = ['FOUNDATION','FRAMING','ENVELOPE','COMPLETE'];
     var lastStage = -1, targetIdx = 0, curIdx = 0, raf = null, checked = false, broken = false;
     var isMobile = window.matchMedia('(max-width: 760px)').matches;
@@ -446,14 +568,13 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
       if(!checked && p>0.04 && p<0.92){ checked=true; if(Math.abs(pin.getBoundingClientRect().top)>60) broken=true; }
       if(broken){ if(p>=1){pin.style.position='absolute';pin.style.top='auto';pin.style.bottom='0';} else if(p<=0){pin.style.position='absolute';pin.style.top='0';pin.style.bottom='auto';} else {pin.style.position='fixed';pin.style.top='0';pin.style.bottom='auto';} pin.style.left='0';pin.style.right='0'; }
     }
-    var capR = [[-1,-1,0.10,0.17],[0.74,0.84,2,2]];
     function setUI(p){
       if(prog) prog.style.width = (p*100).toFixed(1) + '%';
       if(pctt) pctt.textContent = pad(p*100) + '%';
       if(frm) frm.textContent = pad(p*(N-1));
       var si = p<0.30?0:(p<0.58?1:(p<0.85?2:3));
       if(si !== lastStage){ lastStage = si; if(stageEl) stageEl.textContent = STAGES[si]; }
-      for(var i=0;i<caps.length;i++){ var r=capR[i]||[-1,-1,2,2], o=band(p,r[0],r[1],r[2],r[3]), ty=0;
+      for(var i=0;i<caps.length;i++){ var r=caps[i]._b||[-1,-1,2,2], o=band(p,r[0],r[1],r[2],r[3]), ty=0;
         if(p<r[1]) ty=22*(1-o); else if(p>r[2]) ty=-18*(1-o);
         caps[i].style.opacity=o.toFixed(3); caps[i].style.transform='translateY('+ty.toFixed(1)+'px)'; caps[i].style.pointerEvents=o>0.6?'auto':'none'; }
     }
@@ -474,12 +595,35 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
   setupFilm({ wrap:'film1wrap', pin:'film1pin', canvas:'film1canvas', prog:'film1prog', stage:'film1stage', frm:'film1frm', pctt:'film1pctt', loader:'film1loader', loadi:'film1loadi', pct:'film1pct', frames: ["https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_001.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_002.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_003.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_004.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_005.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_006.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_007.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_008.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_009.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_010.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_011.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_012.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_013.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_014.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_015.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_016.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_017.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_018.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_019.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_020.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_021.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_022.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_023.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_024.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_025.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_026.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_027.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_028.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_029.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_030.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_031.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_032.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_033.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_034.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_035.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_036.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_037.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_038.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_039.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_040.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_041.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_042.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_043.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_044.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_045.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_046.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_047.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_048.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_049.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_050.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_051.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_052.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_053.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_054.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_055.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_056.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_057.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_058.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_059.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_060.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_061.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_062.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_063.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_064.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_065.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_066.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_067.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_068.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_069.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_070.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_071.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_072.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_073.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_074.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_075.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_076.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_077.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_078.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_079.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_080.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_081.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_082.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_083.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_084.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_085.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_086.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_087.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_088.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_089.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_090.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_091.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_092.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_093.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_094.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_095.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_096.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_097.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_098.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_099.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_100.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_101.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_102.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_103.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_104.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_105.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_106.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_107.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_108.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_109.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_110.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_111.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_112.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_113.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_114.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_115.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_116.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_117.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_118.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_119.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/g_120.jpg"] });
   setupFilm({ wrap:'film2wrap', pin:'film2pin', canvas:'film2canvas', prog:'film2prog', stage:'film2stage', frm:'film2frm', pctt:'film2pctt', loader:'film2loader', loadi:'film2loadi', pct:'film2pct', frames: ["https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_001.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_002.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_003.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_004.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_005.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_006.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_007.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_008.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_009.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_010.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_011.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_012.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_013.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_014.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_015.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_016.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_017.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_018.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_019.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_020.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_021.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_022.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_023.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_024.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_025.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_026.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_027.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_028.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_029.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_030.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_031.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_032.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_033.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_034.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_035.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_036.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_037.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_038.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_039.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_040.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_041.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_042.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_043.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_044.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_045.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_046.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_047.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_048.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_049.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_050.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_051.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_052.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_053.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_054.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_055.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_056.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_057.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_058.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_059.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_060.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_061.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_062.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_063.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_064.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_065.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_066.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_067.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_068.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_069.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_070.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_071.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_072.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_073.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_074.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_075.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_076.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_077.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_078.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_079.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_080.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_081.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_082.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_083.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_084.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_085.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_086.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_087.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_088.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_089.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_090.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_091.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_092.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_093.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_094.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_095.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_096.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_097.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_098.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_099.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_100.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_101.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_102.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_103.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_104.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_105.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_106.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_107.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_108.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_109.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_110.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_111.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_112.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_113.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_114.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_115.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_116.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_117.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_118.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_119.jpg", "https://cdn.jsdelivr.net/gh/benfriedman1414-tech/annex-adu-assets@main/h_120.jpg"] });
 
+  /* reveal-on-scroll + report scan */
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('pp-in'); io.unobserve(e.target); } }); }, { threshold:.12 });
     document.querySelectorAll('#pp .pp-fade').forEach(function(el){ io.observe(el); });
     var report = document.getElementById('ppreport');
     if(report){ var ro = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ report.classList.add('run'); ro.unobserve(report); } }); }, { threshold:.35 }); ro.observe(report); }
   } else { document.querySelectorAll('#pp .pp-fade').forEach(function(el){ el.classList.add('pp-in'); }); }
+
+  /* count-up stats */
+  (function(){
+    var els = [].slice.call(document.querySelectorAll('#pp [data-count]'));
+    if(!els.length) return;
+    els.forEach(function(el){ var pre=el.getAttribute('data-pre')||'', suf=el.getAttribute('data-suf')||''; el.textContent = pre + (reduced?el.getAttribute('data-count'):'0') + suf; });
+    function run(el){
+      var target=parseFloat(el.getAttribute('data-count'))||0, pre=el.getAttribute('data-pre')||'', suf=el.getAttribute('data-suf')||'', t0=null, dur=1150;
+      if(reduced){ el.textContent=pre+target+suf; return; }
+      function step(ts){ if(!t0)t0=ts; var k=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=pre+Math.round(target*e)+suf; if(k<1) window.requestAnimationFrame(step); }
+      window.requestAnimationFrame(step);
+    }
+    if('IntersectionObserver' in window){
+      var cio=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ run(e.target); cio.unobserve(e.target); } }); }, { threshold:.6 });
+      els.forEach(function(el){ cio.observe(el); });
+    } else els.forEach(run);
+  })();
+
+  /* FAQ accordion */
+  document.querySelectorAll('#pp .pp-item .pp-q').forEach(function(q){
+    q.addEventListener('click', function(){ q.parentNode.classList.toggle('open'); });
+  });
 
   /* Flip cards */
   document.querySelectorAll('#pp .pp-spec .pp-cell').forEach(function(c){
@@ -489,6 +633,31 @@ section:has(#pp){padding-left:0!important;padding-right:0!important;max-width:10
       if(e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32){ e.preventDefault(); toggle(); }
     });
   });
+
+  /* progress rail + chapter dots + scroll cue */
+  (function(){
+    var prog = document.getElementById('ppprog');
+    var cue = document.getElementById('ppcue');
+    var dots = [].slice.call(document.querySelectorAll('#ppdots a'));
+    var targets = dots.map(function(d){ return document.querySelector(d.getAttribute('href')); });
+    var ticking = false;
+    function upd(){
+      var st = window.scrollY || window.pageYOffset || 0;
+      var dh = (document.documentElement.scrollHeight - window.innerHeight) || 1;
+      var p = st/dh; if(p<0)p=0; else if(p>1)p=1;
+      if(prog) prog.style.width = (p*100).toFixed(2) + '%';
+      if(cue){ var o = st<60 ? 1 : (st<220 ? 1-(st-60)/160 : 0); cue.style.opacity = (o<0?0:o).toFixed(2); }
+      var mid = window.innerHeight*0.42, act = -1;
+      for(var i=0;i<targets.length;i++){ if(targets[i] && targets[i].getBoundingClientRect().top <= mid) act = i; }
+      for(var j=0;j<dots.length;j++){ dots[j].classList.toggle('on', j===act); }
+      ticking = false;
+    }
+    function onScroll(){ if(ticking) return; ticking=true; window.requestAnimationFrame(upd); }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll);
+    dots.forEach(function(d){ d.addEventListener('click', function(e){ e.preventDefault(); var t=document.querySelector(d.getAttribute('href')); if(t) t.scrollIntoView({ behavior:'smooth' }); }); });
+    upd();
+  })();
 })();
 
 /* ===== Constellation — sparse, real glowing stars, scroll-morphing, light cursor ===== */
